@@ -41,11 +41,10 @@ export class Markdown
             line = this.#parseLineBreaks(line);
             line = this.#parseHeadings(line);
 
-            line = this.#parseEmphasis(line);
+            line = this.#parseInlineTags(line);
 
             line = this.#parseBlockQuotes(line);
-            line = this.#parseImages(line);
-            line = this.#parseLinks(line);
+            line = this.#parseLinksAndImages(line);
 
             outputHTML += line;
         });
@@ -70,13 +69,13 @@ export class Markdown
         return lineData;
     }
 
-    /* The parseEmphasis static function parses different text effects such as italics,
+    /* The parseInlineTags static function parses different inline text effects such as italics,
      * bold, and strikethrough from Markdown syntax into valid HTML syntax.
      * Returns the parsed HTML data as a string.
      *
      * lineData:            The passed data from a single line of Markdown to parse.
      */
-    static #parseEmphasis(lineData)
+    static #parseInlineTags(lineData)
     {
         replaceCustomPattern('~~', 'strike');
         replaceCustomPattern('==', 'mark');
@@ -175,29 +174,28 @@ export class Markdown
         return lineData;
     }
 
-    static #parseImages(lineData)
+    static #parseLinksAndImages(lineData)
     {
-        if(lineData.slice(0, 1) === '!')
+        while(
+            lineData.includes('[')
+            && lineData.includes(']')
+            && lineData.includes('(')
+            && lineData.includes(')')
+        )
         {
-            let imageAltText = lineData.substring(lineData.indexOf('[') + 1, lineData.indexOf(']'));
-            let imageSrc = lineData.substring(lineData.indexOf('(') + 1, lineData.indexOf(')'));
+            let text = lineData.substring(lineData.indexOf('[') + 1, lineData.indexOf(']'));
+            let src = lineData.substring(lineData.indexOf('(') + 1, lineData.indexOf(')'));
 
-            return `<img src="${imageSrc}" alt="${imageAltText}">`;
-        }
-
-        return lineData;
-    }
-
-    static #parseLinks(lineData)
-    {
-        if (lineData.includes('[') && lineData.includes(']') && lineData.includes('(') && lineData.includes(')'))
-        {
-            let linkText = lineData.substring(lineData.indexOf('[') + 1, lineData.indexOf(']'));
-            let linkSrc = lineData.substring(lineData.indexOf('(') + 1, lineData.indexOf(')'));
-
-            let link = `<a target="_blank" class="external-link" href=${linkSrc}>${linkText}</a>`;
-
-            return lineData.slice(0, lineData.indexOf('[')) + link + lineData.slice(lineData.indexOf(')') + 1);
+            if(lineData.includes('!['))
+            {
+                let link = `<img src="${src}" alt="${text}">`;
+                lineData = lineData.slice(0, lineData.indexOf('![')) + link + lineData.slice(lineData.indexOf(')') + 1);
+            }
+            else
+            {
+                let link = `<a target="_blank" class="external-link" href=${src}>${text}</a>`;
+                lineData = lineData.slice(0, lineData.indexOf('[')) + link + lineData.slice(lineData.indexOf(')') + 1);
+            }
         }
 
         return lineData;
@@ -209,9 +207,11 @@ export class Markdown
         {
             if(this.#CURRENT_OPEN_TAGS.includes('code'))
             {
+
                 return '</code>';
             }
 
+            this.#CURRENT_OPEN_TAGS.push('code');
             return '<code class="code-block">';
         }
 
