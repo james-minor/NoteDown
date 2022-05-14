@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; img-src * 'self' data: https;">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'; img-src * 'self' data: https;">
+
+    <link rel="stylesheet" href="main.css">
+
+    <title>NoteDown</title>
+</head>
+<body>
+
+    <div class="two-column resizable-columns" id="editor-container">
+        <div id="note-input-container">
+            <textarea id="note-input-line-numbers" readonly></textarea>
+            <textarea id="note-input"></textarea>
+        </div>
+        <div id="note-output-container"></div>
+    </div>
+
+    <script type="module" src="inputController.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    line-height: 1.25;
+}
+
+html {
+    --color-theme-dark-1: #121212;
+    --color-theme-dark-2: #1E1E1E;
+    --color-theme-dark-3: #2D2D2D;
+    --color-theme-dark-4: #323232;
+    --color-theme-dark-5: #4E4E4E;
+
+    --color-theme-dark-text: #EEEEEE;
+
+    --color-theme-dark-alt-1: #ACE7FF;
+    --color-theme-dark-alt-2: #6EB5FF;
+
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow: hidden;
+    height: 100vh;
+
+    margin: 0;
+}
+
+.two-column {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    height: 100vh;
+}
+
+#note-input-container,
+#note-output-container {
+    width: 100%;
+    min-height: 100%;
+}
+
+#note-input-container {
+    background-color: var(--color-theme-dark-1);
+    overflow: hidden;
+
+    display: flex;
+}
+
+#note-input {
+    background-color: transparent;
+    color: var(--color-theme-dark-text);
+
+    height: 100%;
+
+    resize: none;
+    border: none;
+    outline: none;
+
+    padding-left: 1ch;
+    padding-right: 1ch;
+
+    overflow-x: auto;
+    text-wrap: none;
+    white-space: pre;
+
+    flex: 1 0;
+}
+
+#note-output-container::-webkit-scrollbar,
+#note-input::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    cursor: pointer;
+}
+
+#note-output-container::-webkit-scrollbar-thumb,
+#note-input::-webkit-scrollbar-thumb {
+    background-color: var(--color-theme-dark-4);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#note-output-container::-webkit-scrollbar-corner,
+#note-input::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+#note-input-line-numbers {
+    background-color: var(--color-theme-dark-2);
+    color: var(--color-theme-dark-5);
+    width: 5ch;
+    height: 100%;
+    outline: none;
+    border: none;
+    left: 0;
+    top: 0;
+    resize: none;
+    text-align: right;
+    overflow: hidden;
+    cursor: default;
+    user-select: none;
+    user-focus: none;
+}
+
+#note-output-container {
+    background-color: var(--color-theme-dark-2);
+    color: var(--color-theme-dark-text);
+
+    font-family: sans-serif;
+
+    padding: 1rem;
+
+    overflow: auto;
+}
+
+#note-output-container blockquote {
+    background-color: var(--color-theme-dark-4);
+    border-left: solid 1ch var(--color-theme-dark-5);
+    padding-left: 1ch;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+
+    margin-left: 1ch;
+    margin-right: 0;
+}
+
+#note-output-container a {
+    color: var(--color-theme-dark-text);
+}
+
+#note-output-container mark {
+    background-color: var(--color-theme-dark-alt-1);
+}
+
+#note-output-container code {
+    background-color: var(--color-theme-dark-1);
+    padding-left: 0.5ch;
+    padding-right: 0.5ch;
+    border-radius: 0.25rem;
+}
+
+#note-output-container .code-block {
+    margin-top: 0.5ch;
+    margin-bottom: 0.5ch;
+
+    width: 100%;
+    display: block;
+}
