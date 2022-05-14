@@ -37,7 +37,7 @@ function inputEventHandler()
         linkArray[index].addEventListener('click', function (event)
         {
             event.preventDefault();
-            window.api.send('openExternalLink', linkArray[0].href);
+            window.api.send('openExternalLink', linkArray[index].href);
         });
     }
 }
